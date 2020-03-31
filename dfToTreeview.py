@@ -32,11 +32,7 @@ class DfView(Frame):
         # creating columns inside treeview
         for column in self.df.columns:
             print(column)
-            self.treeview.heading(
-                column, 
-                text=column,
-                command=lambda: self.sort(column)
-            )
+            self.treeview.heading(column, text=column, command=lambda c=column: self.sort(c))
 
         self.refresh()
 
