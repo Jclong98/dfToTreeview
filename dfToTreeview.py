@@ -30,9 +30,15 @@ class DfView(Frame):
         self.treeview.config(yscrollcommand=scrollbar.set)
 
         # creating columns inside treeview
+        self.sort_dict = {}
         for column in self.df.columns:
+            self.sort_dict[column] = False
             print(column)
-            self.treeview.heading(column, text=column, command=lambda c=column: self.sort(c))
+            self.treeview.heading(
+                column, 
+                text=column, 
+                command=lambda c=column: self.sort(c)
+            )
 
         self.refresh()
 
@@ -48,10 +54,14 @@ class DfView(Frame):
                 self.treeview.set(index, column, row[column])
             
     def sort(self, column):
+        """called when a column name is clicked on. Depending on if it """
 
-        print(column)
+        if self.sort_dict[column]:
+            self.sort_dict[column] = False
+        else:
+            self.sort_dict[column] = True
 
-        self.df.sort_values(by=column, inplace=True)
+        self.df.sort_values(by=column, inplace=True, ascending=self.sort_dict[column])
         self.refresh()
 
 if __name__ == "__main__":
